@@ -2,24 +2,6 @@
 	"name": "Global Major Incidents",
 	"properties": {
 		"description": "This will call major incidents in the past 24 hours to import into the table.",
-		"activities": [
-			{
-				"name": "Lookup1",
-				"type": "Lookup",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"firstRowOnly": true
-				}
-			}
-		],
 		"folder": {
 			"name": "TOCExecutive/Global/Incidents"
 		},
