@@ -1,0 +1,9 @@
+{
+	"name": "adf-tocdashboard-prod-002",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "18f20b46-b3b1-452b-9d30-372545e2f247",
+		"tenantId": "36da45f1-dd2c-4d1f-af13-5abe46b99921"
+	}
+}
