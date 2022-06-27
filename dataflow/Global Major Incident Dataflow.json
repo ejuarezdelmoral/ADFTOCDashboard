@@ -1,0 +1,166 @@
+{
+	"name": "Global Major Incident Dataflow",
+	"properties": {
+		"description": "for the manual file uploads",
+		"folder": {
+			"name": "file uploads"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "GlobalMajorIncidentDisplay"
+				},
+				{
+					"name": "GlobalMajorIncidentActual"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flattenDisplayJSON"
+				},
+				{
+					"name": "flattenActualJSON"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          result as (promoted_by as (display_value as string, link as string), assignment_group as (display_value as string, link as string), cmdb_ci as (display_value as string, link as string), caused_by as string, u_first_assigned_group as (display_value as string, link as string), u_is_the_incident_caused_by_a_change as string, promoted_on as string, business_service as (display_value as string, link as string), sys_tags as string, u_issue_notified_to_gnoc as string, closed_by as (display_value as string, link as string), sys_id as string, number as string, resolved_by as (display_value as string, link as string), opened_by as (display_value as string, link as string), u_member_firm_affected as string, company as (display_value as string, link as string), major_incident_state as string, assigned_to as (display_value as string, link as string))[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false) ~> GlobalMajorIncidentDisplay",
+				"source(output(",
+				"          result as (short_description as string, closed_at as string, comments_and_work_notes as string, description as string, calendar_duration as string, sys_updated_on as string, priority as string, close_notes as string, sys_id as string, number as string, opened_at as string, contact_type as string, sys_updated_by as string, incident_state as string, sys_created_on as string, resolved_at as string, state as string, category as string, subcategory as string, work_notes as string, sys_created_by as string)[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false) ~> GlobalMajorIncidentActual",
+				"GlobalMajorIncidentDisplay foldDown(unroll(result, result),",
+				"     mapColumn(",
+				"          promoted_by = result.promoted_by.display_value,",
+				"          assignment_group = result.assignment_group.display_value,",
+				"          cmdb_ci = result.cmdb_ci.display_value,",
+				"          caused_by = result.caused_by,",
+				"          u_first_assigned_group = result.u_first_assigned_group.display_value,",
+				"          u_is_the_incident_caused_by_a_change = result.u_is_the_incident_caused_by_a_change,",
+				"          promoted_on = result.promoted_on,",
+				"          business_service = result.business_service.display_value,",
+				"          sys_tags = result.sys_tags,",
+				"          u_issue_notified_to_gnoc = result.u_issue_notified_to_gnoc,",
+				"          closed_by = result.closed_by.display_value,",
+				"          sys_id = result.sys_id,",
+				"          number = result.number,",
+				"          resolved_by = result.resolved_by.display_value,",
+				"          opened_by = result.opened_by.display_value,",
+				"          u_member_firm_affected = result.u_member_firm_affected,",
+				"          company = result.company.display_value,",
+				"          major_incident_state = result.major_incident_state,",
+				"          assigned_to = result.assigned_to.display_value",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenDisplayJSON",
+				"GlobalMajorIncidentActual foldDown(unroll(result, result),",
+				"     mapColumn(",
+				"          short_description = result.short_description,",
+				"          closed_at = result.closed_at,",
+				"          comments_and_work_notes = result.comments_and_work_notes,",
+				"          description = result.description,",
+				"          calendar_duration = result.calendar_duration,",
+				"          sys_updated_on = result.sys_updated_on,",
+				"          priority = result.priority,",
+				"          close_notes = result.close_notes,",
+				"          sys_id = result.sys_id,",
+				"          number = result.number,",
+				"          opened_at = result.opened_at,",
+				"          contact_type = result.contact_type,",
+				"          sys_updated_by = result.sys_updated_by,",
+				"          incident_state = result.incident_state,",
+				"          sys_created_on = result.sys_created_on,",
+				"          resolved_at = result.resolved_at,",
+				"          state = result.state,",
+				"          category = result.category,",
+				"          subcategory = result.subcategory,",
+				"          work_notes = result.work_notes,",
+				"          sys_created_by = result.sys_created_by",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenActualJSON",
+				"flattenDisplayJSON, flattenActualJSON join(flattenDisplayJSON@sys_id == flattenActualJSON@sys_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 derive(caused_by = substring(caused_by, 19, 10),",
+				"          updated_new = toTimestamp(toString(sys_updated_on), 'yyyy-MM-dd HH:mm:ss'),",
+				"          sys_created_on = toTimestamp(sys_created_on, 'yyyy-MM-dd HH:mm:ss'),",
+				"          resolved_at = toTimestamp(resolved_at, 'yyyy-MM-dd HH:mm:ss'),",
+				"          u_issue_notified_to_gnoc = toTimestamp(u_issue_notified_to_gnoc, 'yyyy-MM-dd HH:mm:ss'),",
+				"          calendar_duration = toTimestamp(calendar_duration, 'yyyy-MM-dd HH:mm:ss'),",
+				"          closed_at = toTimestamp(closed_at, 'yyyy-MM-dd HH:mm:ss'),",
+				"          opened_at = toTimestamp(opened_at, 'yyyy-MM-dd HH:mm:ss'),",
+				"          promoted_on = toTimestamp(promoted_on, 'yyyy-MM-dd HH:mm:ss'),",
+				"          sys_updated_on = toTimestamp(sys_updated_on, 'yyyy-MM-dd HH:mm:ss')) ~> derivedColumn1",
+				"derivedColumn1 alterRow(upsertIf(true())) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          sys_id = flattenDisplayJSON@sys_id,",
+				"          {Configuration item} = cmdb_ci,",
+				"          Number = flattenDisplayJSON@number,",
+				"          Created = sys_created_on,",
+				"          Resolved = resolved_at,",
+				"          {Resolved by} = resolved_by,",
+				"          {Contact type} = contact_type,",
+				"          {Assignment group} = assignment_group,",
+				"          {TOC Awareness Time} = u_issue_notified_to_gnoc,",
+				"          Priority = priority,",
+				"          {Major incident state} = major_incident_state,",
+				"          Duration = calendar_duration,",
+				"          {Assigned to} = assigned_to,",
+				"          {Business service} = business_service,",
+				"          Category = category,",
+				"          {Caused by Change} = caused_by,",
+				"          {Close notes} = close_notes,",
+				"          Closed = closed_at,",
+				"          {Closed by} = closed_by,",
+				"          {Comments and Work notes} = comments_and_work_notes,",
+				"          Company = company,",
+				"          {Created by} = sys_created_by,",
+				"          Description = description,",
+				"          {First Assigned Group} = u_first_assigned_group,",
+				"          {Incident state} = incident_state,",
+				"          {Is the Incident caused by a change?} = u_is_the_incident_caused_by_a_change,",
+				"          {Member Firm Affected} = u_member_firm_affected,",
+				"          Opened = opened_at,",
+				"          {Opened by} = opened_by,",
+				"          {Promoted by} = promoted_by,",
+				"          {Promoted on} = promoted_on,",
+				"          {Short description} = short_description,",
+				"          State = state,",
+				"          Subcategory = subcategory,",
+				"          Updated = sys_updated_on,",
+				"          {Updated by} = sys_updated_by,",
+				"          {Work notes} = work_notes,",
+				"          Tags = sys_tags,",
+				"          updated_new",
+				"     ),",
+				"     format: 'table') ~> sink1"
+			]
+		}
+	}
+}
