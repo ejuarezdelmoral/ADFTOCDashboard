@@ -80,7 +80,7 @@
 				"flattendisplay derive(cmdb_ci = replace(toString(cmdb_ci), \"'\",\"''\" )) ~> derivedColumn1",
 				"flattenactual derive(updated_new = toTimestamp(toString(sys_updated_on), 'yyyy-MM-dd HH:mm:ss')) ~> derivedColumn2",
 				"JOIN derive(cmdb_ci_final = replace(toString(cmdb_ci), '&','%26'),",
-				"          duration_in_hrs = toDecimal((toInteger(toTimestamp(end)-toTimestamp(begin))/1000)/3600, 10)) ~> derivedColumn3",
+				"          duration_in_hrs = toDecimal((toInteger(end-begin)/1000)/3600, 10)) ~> derivedColumn3",
 				"derivedColumn3 alterRow(upsertIf(true())) ~> alterRow1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
