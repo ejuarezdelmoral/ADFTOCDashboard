@@ -8,7 +8,10 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"name": "source1"
+					"name": "USIncidentActual"
+				},
+				{
+					"name": "USIncidentDisplay"
 				}
 			],
 			"sinks": [
@@ -24,19 +27,29 @@
 					"name": "derivedColumn1"
 				},
 				{
+					"name": "flatten2"
+				},
+				{
+					"name": "join1"
+				},
+				{
 					"name": "alterRow1"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
-				"          result as (short_description as string, assignment_group as (link as string, value as string), u_is_the_incident_caused_by_a_change as string, u_toc_awareness_time as string, sys_updated_on as string, calendar_duration as string, priority as string, sys_tags as string, sys_id as string, number as string, resolved_by as (link as string, value as string), contact_type as string, opened_by as (link as string, value as string), sys_created_on as string, resolved_at as string, major_incident_state as string, sys_created_by as string)[]",
+				"          result as (short_description as string, u_is_the_incident_caused_by_a_change as string, u_toc_awareness_time as string, sys_updated_on as string, calendar_duration as string, priority as string, sys_tags as string, sys_id as string, number as string, contact_type as string, sys_created_on as string, resolved_at as string, major_incident_state as string, sys_created_by as string)[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1",
-				"source1 foldDown(unroll(result, result),",
+				"     validateSchema: false) ~> USIncidentActual",
+				"source(output(",
+				"          result as (sys_id as string, resolved_by as (display_value as string, link as string), assignment_group as (display_value as string, link as string), opened_by as (display_value as string, link as string))[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false) ~> USIncidentDisplay",
+				"USIncidentActual foldDown(unroll(result, result),",
 				"     mapColumn(",
 				"          short_description = result.short_description,",
-				"          assignment_group = result.assignment_group.value,",
 				"          u_is_the_incident_caused_by_a_change = result.u_is_the_incident_caused_by_a_change,",
 				"          u_toc_awareness_time = result.u_toc_awareness_time,",
 				"          sys_updated_on = result.sys_updated_on,",
@@ -45,9 +58,7 @@
 				"          sys_tags = result.sys_tags,",
 				"          sys_id = result.sys_id,",
 				"          number = result.number,",
-				"          resolved_by = result.resolved_by.value,",
 				"          contact_type = result.contact_type,",
-				"          opened_by = result.opened_by.value,",
 				"          sys_created_on = result.sys_created_on,",
 				"          resolved_at = result.resolved_at,",
 				"          major_incident_state = result.major_incident_state,",
@@ -55,18 +66,32 @@
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flatten1",
-				"flatten1 derive(updated_new = toTimestamp(toString(sys_updated_on), 'yyyy-MM-dd HH:mm:ss'),",
+				"join1 derive(updated_new = toTimestamp(toString(sys_updated_on), 'yyyy-MM-dd HH:mm:ss'),",
 				"          sys_created_on = toTimestamp(sys_created_on, 'yyyy-MM-dd HH:mm:ss'),",
 				"          u_toc_awareness_time = toTimestamp(u_toc_awareness_time, 'yyyy-MM-dd HH:mm:ss'),",
 				"          resolved_at = toTimestamp(resolved_at, 'yyyy-MM-dd HH:mm:ss'),",
 				"          calendar_duration = toTimestamp(calendar_duration, 'yyyy-MM-dd HH:mm:ss')) ~> derivedColumn1",
+				"USIncidentDisplay foldDown(unroll(result, result),",
+				"     mapColumn(",
+				"          sys_id = result.sys_id,",
+				"          resolved_by = result.resolved_by.display_value,",
+				"          assignment_group = result.assignment_group.display_value,",
+				"          opened_by = result.opened_by.display_value",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten2",
+				"flatten1, flatten2 join(flatten1@sys_id == flatten2@sys_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
 				"derivedColumn1 alterRow(upsertIf(true())) ~> alterRow1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     mapColumn(",
-				"          sys_id,",
+				"          sys_id = flatten1@sys_id,",
 				"          number_value = number,",
 				"          sys_created_on_value = sys_created_on,",
 				"          u_toc_awareness_time_value = u_toc_awareness_time,",
