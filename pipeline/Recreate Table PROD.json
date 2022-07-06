@@ -1,0 +1,6 @@
+{
+	"name": "Recreate Table PROD",
+	"properties": {
+		"annotations": []
+	}
+}
