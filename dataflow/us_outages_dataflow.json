@@ -114,26 +114,14 @@
 				"          duration_in_hrs as string",
 				"     ),",
 				"     deletable:false,",
-				"     insertable:true,",
+				"     insertable:false,",
 				"     updateable:false,",
-				"     upsertable:false,",
+				"     upsertable:true,",
+				"     keys:['sys_id'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          sys_id_value = flattenactual@sys_id,",
-				"          begin_value = begin,",
-				"          end_value = end,",
-				"          duration_value = duration,",
-				"          sys_created_on_value = sys_created_on,",
-				"          cmdb_ci_display_value = cmdb_ci,",
-				"          task_number_display_value = task_number,",
-				"          sys_updated_on_value = sys_updated_on,",
-				"          updated_new,",
-				"          duration_in_hrs,",
-				"          cmdb_ci_display_value_new = cmdb_ci_final",
-				"     )) ~> USOutages"
+				"     errorHandlingOption: 'stopOnFirstError') ~> USOutages"
 			]
 		}
 	}
