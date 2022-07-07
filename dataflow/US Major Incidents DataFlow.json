@@ -8,14 +8,26 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "us_incident_actual_JSON",
+						"type": "DatasetReference"
+					},
 					"name": "USIncidentActual"
 				},
 				{
+					"dataset": {
+						"referenceName": "us_incident_display_JSON",
+						"type": "DatasetReference"
+					},
 					"name": "USIncidentDisplay"
 				}
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "AzureSqlUSIncident",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -38,15 +50,19 @@
 			],
 			"scriptLines": [
 				"source(output(",
-				"          result as (short_description as string, u_is_the_incident_caused_by_a_change as string, u_toc_awareness_time as string, sys_updated_on as string, calendar_duration as string, priority as string, sys_tags as string, sys_id as string, number as string, contact_type as string, sys_created_on as string, resolved_at as string, major_incident_state as string, sys_created_by as string)[]",
+				"          result as (short_description as string, assignment_group as (link as string, value as string), u_is_the_incident_caused_by_a_change as string, u_toc_awareness_time as string, sys_updated_on as string, calendar_duration as string, priority as string, sys_tags as string, sys_id as string, number as string, resolved_by as (link as string, value as string), contact_type as string, opened_by as (link as string, value as string), sys_created_on as string, resolved_at as string, major_incident_state as string, sys_created_by as string)[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> USIncidentActual",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> USIncidentActual",
 				"source(output(",
 				"          result as (sys_id as string, resolved_by as (display_value as string, link as string), assignment_group as (display_value as string, link as string), opened_by as (display_value as string, link as string))[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> USIncidentDisplay",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> USIncidentDisplay",
 				"USIncidentActual foldDown(unroll(result, result),",
 				"     mapColumn(",
 				"          short_description = result.short_description,",
@@ -88,8 +104,34 @@
 				"derivedColumn1 alterRow(upsertIf(true())) ~> alterRow1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          sys_id as string,",
+				"          number as string,",
+				"          sys_created_on as timestamp,",
+				"          u_toc_awareness_time as timestamp,",
+				"          assignment_group as string,",
+				"          major_incident_state as string,",
+				"          short_description as string,",
+				"          sys_created_by as string,",
+				"          sys_updated_on as string,",
+				"          resolved_by as string,",
+				"          opened_by as string,",
+				"          resolved_at as timestamp,",
+				"          priority as string,",
+				"          calendar_duration as timestamp,",
+				"          contact_type as string,",
+				"          updated_new as string,",
+				"          caused_by_change as string,",
+				"          sys_tags as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          sys_id = flatten1@sys_id,",
 				"          number_value = number,",
@@ -109,8 +151,7 @@
 				"          updated_new,",
 				"          caused_by_change_value = u_is_the_incident_caused_by_a_change,",
 				"          sys_tags_value = sys_tags",
-				"     ),",
-				"     format: 'table') ~> sink1"
+				"     )) ~> sink1"
 			]
 		}
 	}

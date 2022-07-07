@@ -1,0 +1,97 @@
+{
+	"name": "AzureSqlUSIncident",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TOCDataBase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "sys_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "number",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_created_on",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "u_toc_awareness_time",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "assignment_group",
+				"type": "nvarchar"
+			},
+			{
+				"name": "major_incident_state",
+				"type": "nvarchar"
+			},
+			{
+				"name": "short_description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_created_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_updated_on",
+				"type": "nvarchar"
+			},
+			{
+				"name": "resolved_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "opened_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "resolved_at",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "priority",
+				"type": "nvarchar"
+			},
+			{
+				"name": "calendar_duration",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "contact_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "updated_new",
+				"type": "nvarchar"
+			},
+			{
+				"name": "caused_by_change",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_tags",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "us_incident"
+		}
+	}
+}
