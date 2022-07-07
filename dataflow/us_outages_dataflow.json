@@ -121,7 +121,20 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> USOutages"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          sys_id = flattenactual@sys_id,",
+				"          begin,",
+				"          end,",
+				"          duration,",
+				"          sys_created_on,",
+				"          cmdb_ci_display = cmdb_ci,",
+				"          task_number_display = task_number,",
+				"          sys_updated_on,",
+				"          updated_new,",
+				"          duration_in_hrs,",
+				"          cmdb_ci_display_value_new = cmdb_ci_final",
+				"     )) ~> USOutages"
 			]
 		}
 	}
