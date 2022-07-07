@@ -34,8 +34,40 @@
 							"type": "JsonWriteSettings"
 						}
 					},
-					"enableStaging": false
-				}
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['result'][0]"
+								},
+								"sink": {
+									"path": "$['result']"
+								}
+							}
+						],
+						"collectionReference": "$['result']"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "USSNOWREST",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "cmdb_ci_outage",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@24",
+							"display_true_value": "false",
+							"field_value": "sys_id%2Cbegin%2Cend%2Cduration%2Csys_created_on%2Csys_updated_on"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "us_cmdb_ci_outage_actual_JSON",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "us_outages_display",
@@ -59,17 +91,20 @@
 							"supportRFC5988": "true"
 						}
 					},
-					"sink": {
-						"type": "JsonSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
-						},
-						"formatSettings": {
-							"type": "JsonWriteSettings"
-						}
-					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "USSNOWREST",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "cmdb_ci_outage",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@24",
+							"display_true_value": "true",
+							"field_value": "sys_id%2Ccmdb_ci%2Ctask_number"
+						}
+					}
+				]
 			},
 			{
 				"name": "global_outages_actual",
@@ -103,7 +138,25 @@
 						}
 					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "GlobalSNOWRESTDataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "cmdb_ci_outage",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@24",
+							"display_true_value": "false",
+							"field_value": "sys_created_on%2Cbegin%2Cduration%2Cend%2Ctype%2Csys_updated_on%2Csys_mod_count%2Csys_id"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "global_cmdb_ci_outage_actual_JSON",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "global_outages_display",

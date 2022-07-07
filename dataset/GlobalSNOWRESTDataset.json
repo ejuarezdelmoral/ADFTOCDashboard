@@ -7,19 +7,19 @@
 			"type": "LinkedServiceReference",
 			"parameters": {
 				"table": {
-					"value": "@dataset().table_value",
+					"value": "@{dataset().table_value}",
 					"type": "Expression"
 				},
 				"sysparm_query": {
-					"value": "@dataset().query_value",
+					"value": "@{dataset().query_value}",
 					"type": "Expression"
 				},
 				"sysparm_display_value": {
-					"value": "@dataset().display_true_value",
+					"value": "@{dataset().display_true_value}",
 					"type": "Expression"
 				},
 				"sysparm_fields": {
-					"value": "@dataset().field_value",
+					"value": "@{dataset().field_value}",
 					"type": "Expression"
 				}
 			}
