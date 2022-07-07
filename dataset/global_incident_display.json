@@ -1,0 +1,171 @@
+{
+	"name": "global_incident_display",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStaging",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Staging Blob Tables"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "global_incident_display.json",
+				"container": "azuredatafactorystaging"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"result": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"promoted_by": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"assignment_group": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"cmdb_ci": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"caused_by": {
+								"type": "string"
+							},
+							"u_first_assigned_group": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"u_is_the_incident_caused_by_a_change": {
+								"type": "string"
+							},
+							"promoted_on": {
+								"type": "string"
+							},
+							"business_service": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"sys_tags": {
+								"type": "string"
+							},
+							"u_issue_notified_to_gnoc": {
+								"type": "string"
+							},
+							"closed_by": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"sys_id": {
+								"type": "string"
+							},
+							"number": {
+								"type": "string"
+							},
+							"resolved_by": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"opened_by": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"u_member_firm_affected": {
+								"type": "string"
+							},
+							"company": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"major_incident_state": {
+								"type": "string"
+							},
+							"assigned_to": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
