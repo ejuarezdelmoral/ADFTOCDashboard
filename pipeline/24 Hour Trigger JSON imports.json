@@ -56,7 +56,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"table_value": "cmdb_ci_outage",
-							"query_value": "sys_created_onRELATIVEGT@hour@ago@72",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@200",
 							"display_true_value": "false",
 							"field_value": "sys_id%2Cbegin%2Cend%2Cduration%2Csys_created_on%2Csys_updated_on"
 						}
