@@ -40,14 +40,14 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['result'][0]"
+									"path": "$['result']"
 								},
 								"sink": {
 									"path": "$['result']"
 								}
 							}
 						],
-						"collectionReference": "$['result']"
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
