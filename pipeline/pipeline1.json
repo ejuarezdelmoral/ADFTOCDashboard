@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "global_outages",
+				"name": "global major incidents",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "Global_outages_dataflow",
+						"referenceName": "Global Major Incident Dataflow",
 						"type": "DataFlowReference"
 					},
 					"compute": {
