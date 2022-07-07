@@ -1,0 +1,67 @@
+{
+	"name": "us_incident_display_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStaging",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "us_incident_display.json",
+				"container": "azuredatafactorystaging"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"result": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"sys_id": {
+								"type": "string"
+							},
+							"resolved_by": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"assignment_group": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							},
+							"opened_by": {
+								"type": "object",
+								"properties": {
+									"display_value": {
+										"type": "string"
+									},
+									"link": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
