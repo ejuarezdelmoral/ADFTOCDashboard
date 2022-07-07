@@ -94,7 +94,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"table_value": "cmdb_ci_outage",
-							"query_value": "sys_created_onRELATIVEGT@hour@ago@24",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@200",
 							"display_true_value": "true",
 							"field_value": "sys_id%2Ccmdb_ci%2Ctask_number"
 						}
