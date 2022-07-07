@@ -1,0 +1,189 @@
+{
+	"name": "AzureSQLGlobalIncident",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TOCDataBase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "sys_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "cmdb_ci",
+				"type": "nvarchar"
+			},
+			{
+				"name": "number",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_created_on",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "resolved_at",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "resolved_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "contact_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "assignment_group",
+				"type": "nvarchar"
+			},
+			{
+				"name": "u_issue_notified_to_gnoc",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "priority",
+				"type": "nvarchar"
+			},
+			{
+				"name": "major_incident_state",
+				"type": "nvarchar"
+			},
+			{
+				"name": "calendar_duration",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "assigned_to",
+				"type": "nvarchar"
+			},
+			{
+				"name": "business_service",
+				"type": "nvarchar"
+			},
+			{
+				"name": "category",
+				"type": "nvarchar"
+			},
+			{
+				"name": "caused_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "close_notes",
+				"type": "nvarchar"
+			},
+			{
+				"name": "closed_at",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "closed_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "comments_and_work_notes",
+				"type": "nvarchar"
+			},
+			{
+				"name": "company",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_created_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "u_first_assigned_group",
+				"type": "nvarchar"
+			},
+			{
+				"name": "incident_state",
+				"type": "nvarchar"
+			},
+			{
+				"name": "u_is_the_incident_caused_by_a_change",
+				"type": "nvarchar"
+			},
+			{
+				"name": "u_member_firm_affected",
+				"type": "nvarchar"
+			},
+			{
+				"name": "opened_at",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "opened_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "promoted_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "promoted_on",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "short_description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "state",
+				"type": "nvarchar"
+			},
+			{
+				"name": "subcategory",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_updated_on",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "sys_updated_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "work_notes",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_tags",
+				"type": "nvarchar"
+			},
+			{
+				"name": "updated_new",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "global_incident"
+		}
+	}
+}

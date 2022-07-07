@@ -9,14 +9,26 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "global_incident_display_JSON",
+						"type": "DatasetReference"
+					},
 					"name": "GlobalMajorIncidentDisplay"
 				},
 				{
+					"dataset": {
+						"referenceName": "global_incident_actual_JSON",
+						"type": "DatasetReference"
+					},
 					"name": "GlobalMajorIncidentActual"
 				}
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "AzureSQLGlobalIncident",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -42,12 +54,16 @@
 				"          result as (promoted_by as (display_value as string, link as string), assignment_group as (display_value as string, link as string), cmdb_ci as (display_value as string, link as string), caused_by as string, u_first_assigned_group as (display_value as string, link as string), u_is_the_incident_caused_by_a_change as string, promoted_on as string, business_service as (display_value as string, link as string), sys_tags as string, u_issue_notified_to_gnoc as string, closed_by as (display_value as string, link as string), sys_id as string, number as string, resolved_by as (display_value as string, link as string), opened_by as (display_value as string, link as string), u_member_firm_affected as string, company as (display_value as string, link as string), major_incident_state as string, assigned_to as (display_value as string, link as string))[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> GlobalMajorIncidentDisplay",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> GlobalMajorIncidentDisplay",
 				"source(output(",
 				"          result as (short_description as string, closed_at as string, comments_and_work_notes as string, description as string, calendar_duration as string, sys_updated_on as string, priority as string, close_notes as string, sys_id as string, number as string, opened_at as string, contact_type as string, sys_updated_by as string, incident_state as string, sys_created_on as string, resolved_at as string, state as string, category as string, subcategory as string, work_notes as string, sys_created_by as string)[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> GlobalMajorIncidentActual",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> GlobalMajorIncidentActual",
 				"GlobalMajorIncidentDisplay foldDown(unroll(result, result),",
 				"     mapColumn(",
 				"          promoted_by = result.promoted_by.display_value,",
@@ -116,8 +132,55 @@
 				"derivedColumn1 alterRow(upsertIf(true())) ~> alterRow1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          sys_id as string,",
+				"          cmdb_ci as string,",
+				"          number as string,",
+				"          sys_created_on as timestamp,",
+				"          resolved_at as timestamp,",
+				"          resolved_by as string,",
+				"          contact_type as string,",
+				"          assignment_group as string,",
+				"          u_issue_notified_to_gnoc as timestamp,",
+				"          priority as string,",
+				"          major_incident_state as string,",
+				"          calendar_duration as timestamp,",
+				"          assigned_to as string,",
+				"          business_service as string,",
+				"          category as string,",
+				"          caused_by as string,",
+				"          close_notes as string,",
+				"          closed_at as timestamp,",
+				"          closed_by as string,",
+				"          comments_and_work_notes as string,",
+				"          company as string,",
+				"          sys_created_by as string,",
+				"          description as string,",
+				"          u_first_assigned_group as string,",
+				"          incident_state as string,",
+				"          u_is_the_incident_caused_by_a_change as string,",
+				"          u_member_firm_affected as string,",
+				"          opened_at as timestamp,",
+				"          opened_by as string,",
+				"          promoted_by as string,",
+				"          promoted_on as timestamp,",
+				"          short_description as string,",
+				"          state as string,",
+				"          subcategory as string,",
+				"          sys_updated_on as timestamp,",
+				"          sys_updated_by as string,",
+				"          work_notes as string,",
+				"          sys_tags as string,",
+				"          updated_new as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          sys_id = flattenDisplayJSON@sys_id,",
 				"          {Configuration item} = cmdb_ci,",
@@ -158,8 +221,7 @@
 				"          {Work notes} = work_notes,",
 				"          Tags = sys_tags,",
 				"          updated_new",
-				"     ),",
-				"     format: 'table') ~> sink1"
+				"     )) ~> sink1"
 			]
 		}
 	}
