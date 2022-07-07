@@ -1,0 +1,97 @@
+{
+	"name": "global_incident_actual_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStaging",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Staging Blob Tables"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "global_incident_actual.json",
+				"container": "azuredatafactorystaging"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"result": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"short_description": {
+								"type": "string"
+							},
+							"closed_at": {
+								"type": "string"
+							},
+							"comments_and_work_notes": {
+								"type": "string"
+							},
+							"description": {
+								"type": "string"
+							},
+							"calendar_duration": {
+								"type": "string"
+							},
+							"sys_updated_on": {
+								"type": "string"
+							},
+							"priority": {
+								"type": "string"
+							},
+							"close_notes": {
+								"type": "string"
+							},
+							"sys_id": {
+								"type": "string"
+							},
+							"number": {
+								"type": "string"
+							},
+							"opened_at": {
+								"type": "string"
+							},
+							"contact_type": {
+								"type": "string"
+							},
+							"sys_updated_by": {
+								"type": "string"
+							},
+							"incident_state": {
+								"type": "string"
+							},
+							"sys_created_on": {
+								"type": "string"
+							},
+							"resolved_at": {
+								"type": "string"
+							},
+							"state": {
+								"type": "string"
+							},
+							"category": {
+								"type": "string"
+							},
+							"subcategory": {
+								"type": "string"
+							},
+							"work_notes": {
+								"type": "string"
+							},
+							"sys_created_by": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
