@@ -3,25 +3,12 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Data flow1",
+				"name": "global_outages",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [
-					{
-						"activity": "us_outages_actual",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "us_outages_display",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "1.00:00:00",
-					"retry": 0,
+					"retry": 2,
 					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
@@ -29,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "us_outages_dataflow",
+						"referenceName": "Global_outages_dataflow",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -38,111 +25,6 @@
 					},
 					"traceLevel": "Fine"
 				}
-			},
-			{
-				"name": "us_outages_actual",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 3,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "RestSource",
-						"httpRequestTimeout": "00:01:40",
-						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "GET",
-						"paginationRules": {
-							"supportRFC5988": "true"
-						}
-					},
-					"sink": {
-						"type": "JsonSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings",
-							"copyBehavior": "FlattenHierarchy"
-						},
-						"formatSettings": {
-							"type": "JsonWriteSettings"
-						}
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "USSNOWREST",
-						"type": "DatasetReference",
-						"parameters": {
-							"table_value": "cmdb_ci_outage",
-							"query_value": "sys_created_onRELATIVEGT@year@ago@1",
-							"display_true_value": "false",
-							"field_value": "sys_id%2Cbegin%2Cend%2Cduration%2Csys_created_on%2Csys_updated_on"
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "us_cmdb_ci_outage_actual_JSON",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "us_outages_display",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 3,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "RestSource",
-						"httpRequestTimeout": "00:01:40",
-						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "GET",
-						"paginationRules": {
-							"supportRFC5988": "true"
-						}
-					},
-					"sink": {
-						"type": "JsonSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
-						},
-						"formatSettings": {
-							"type": "JsonWriteSettings"
-						}
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "USSNOWREST",
-						"type": "DatasetReference",
-						"parameters": {
-							"table_value": "cmdb_ci_outage",
-							"query_value": "sys_created_onRELATIVEGT@year@ago@1",
-							"display_true_value": "true",
-							"field_value": "sys_id%2Ccmdb_ci%2Ctask_number"
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "us_cmdb_ci_outage_display_JSON",
-						"type": "DatasetReference"
-					}
-				]
 			}
 		],
 		"annotations": []
