@@ -8,14 +8,26 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "global_cmdb_ci_outage_display_JSON",
+						"type": "DatasetReference"
+					},
 					"name": "GlobalOutagesDisplayJSON"
 				},
 				{
+					"dataset": {
+						"referenceName": "global_cmdb_ci_outage_actual_JSON",
+						"type": "DatasetReference"
+					},
 					"name": "GlobalOutagesActualJSON"
 				}
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "AzureSqlGlobalOutages",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -41,12 +53,16 @@
 				"          result as (short_description as string, sys_id as string, cmdb_ci as (display_value as string, link as string), task_number as (display_value as string, link as string))[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> GlobalOutagesDisplayJSON",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> GlobalOutagesDisplayJSON",
 				"source(output(",
 				"          result as (duration as string, sys_id as string, sys_created_on as string, sys_mod_count as string, end as string, sys_updated_on as string, type as string, begin as string)[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> GlobalOutagesActualJSON",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> GlobalOutagesActualJSON",
 				"GlobalOutagesDisplayJSON foldDown(unroll(result, result),",
 				"     mapColumn(",
 				"          short_description = result.short_description,",
@@ -83,8 +99,28 @@
 				"derivedColumn1 alterRow(upsertIf(true())) ~> alterRow1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          sys_id as string,",
+				"          cmdb_ci as string,",
+				"          task_number as string,",
+				"          sys_created_on as timestamp,",
+				"          begin as timestamp,",
+				"          duration as timestamp,",
+				"          end as timestamp,",
+				"          short_description as string,",
+				"          type as string,",
+				"          sys_updated_on as timestamp,",
+				"          sys_mod_count as string,",
+				"          updated_new as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          cmdb_ci,",
 				"          task_number,",
@@ -98,8 +134,7 @@
 				"          sys_mod_count,",
 				"          sys_id = FlattenJSONDisplay@sys_id,",
 				"          updated_new",
-				"     ),",
-				"     format: 'table') ~> sink1"
+				"     )) ~> sink1"
 			]
 		}
 	}
