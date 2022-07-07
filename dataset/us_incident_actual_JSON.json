@@ -5,6 +5,9 @@
 			"referenceName": "AzureBlobStaging",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Staging Blob Tables"
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
