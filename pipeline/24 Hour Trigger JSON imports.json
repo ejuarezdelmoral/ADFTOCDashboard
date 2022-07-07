@@ -91,6 +91,15 @@
 							"supportRFC5988": "true"
 						}
 					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
 					"enableStaging": false
 				},
 				"inputs": [
@@ -103,6 +112,12 @@
 							"display_true_value": "true",
 							"field_value": "sys_id%2Ccmdb_ci%2Ctask_number"
 						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "us_cmdb_ci_outage_display_JSON",
+						"type": "DatasetReference"
 					}
 				]
 			},

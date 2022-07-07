@@ -8,9 +8,17 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "us_cmdb_ci_outage_actual_JSON",
+						"type": "DatasetReference"
+					},
 					"name": "ActualUSOutages"
 				},
 				{
+					"dataset": {
+						"referenceName": "us_cmdb_ci_outage_display_JSON",
+						"type": "DatasetReference"
+					},
 					"name": "DisplayUSOutages"
 				}
 			],
@@ -44,15 +52,19 @@
 			],
 			"scriptLines": [
 				"source(output(",
-				"          result as (begin as timestamp, duration as timestamp, end as timestamp, sys_created_on as timestamp, sys_id as string, sys_updated_on as timestamp)[]",
+				"          result as (duration as string, sys_id as string, sys_created_on as string, end as string, sys_updated_on as string, begin as string)[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> ActualUSOutages",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> ActualUSOutages",
 				"source(output(",
-				"          result as (cmdb_ci as (display_value as string, link as string), sys_id as string, task_number as (display_value as string, link as string))[]",
+				"          result as (sys_id as string, cmdb_ci as (display_value as string, link as string), task_number as (display_value as string, link as string))[]",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> DisplayUSOutages",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> DisplayUSOutages",
 				"ActualUSOutages foldDown(unroll(result, result),",
 				"     mapColumn(",
 				"          duration = result.duration,",
