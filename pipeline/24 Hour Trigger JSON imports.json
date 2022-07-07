@@ -190,7 +190,25 @@
 						}
 					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "GlobalSNOWRESTDataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "cmdb_ci_outage",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@24",
+							"display_true_value": "true",
+							"field_value": "cmdb_ci%2Ctask_number%2Cshort_description%2Csys_id"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "global_cmdb_ci_outage_display_JSON",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "us_incidents_actual",
@@ -224,7 +242,25 @@
 						}
 					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "USSNOWREST",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "incident",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@24^major_incident_state=accepted",
+							"display_true_value": "false",
+							"field_value": "sys_id%2Cnumber%2Csys_created_on%2Cshort_description%2Cu_toc_awareness_time%2Csys_created_by%2Cmajor_incident_state%2Csys_updated_on%2Cresolved_at%2Cpriority%2Ccalendar_duration%2Ccontact_type%2Cu_is_the_incident_caused_by_a_change%2Csys_tags"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "us_incident_actual_JSON",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "global_major_incidents_actual",
@@ -258,7 +294,25 @@
 						}
 					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "GlobalSNOWRESTDataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "incident",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@24^major_incident_state=accepted",
+							"display_true_value": "false",
+							"field_value": "sys_id%2Cnumber%2Csys_created_on%2Cresolved_at%2Ccontact_type%2Cpriority%2Ccalendar_duration%2Ccategory%2Cclose_notes%2Cclosed_at%2Ccomments_and_work_notes%2Csys_created_by%2Cdescription%2Cincident_state%2Copened_at%2Cshort_description%2Cstate%2Csubcategory%2Csys_updated_on%2Csys_updated_by%2Cwork_notes"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "global_incident_actual_JSON",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "global_major_incidents_display",
@@ -292,7 +346,25 @@
 						}
 					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "GlobalSNOWRESTDataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "incident",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@24^major_incident_state=accepted",
+							"display_true_value": "true",
+							"field_value": "sys_id%2Ccmdb_ci%2Cnumber%2Cresolved_by%2Cassignment_group%2Cu_issue_notified_to_gnoc%2Cmajor_incident_state%2Cassigned_to%2Cbusiness_service%2Ccompany%2Ccaused_by%2Cclosed_by%2Cu_first_assigned_group%2Cu_is_the_incident_caused_by_a_change%2Cu_member_firm_affected%2Copened_by%2Cpromoted_by%2Cpromoted_on%2Csys_tags"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "global_incident_display_JSON",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "us_outages",
@@ -492,7 +564,25 @@
 						}
 					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "USSNOWREST",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "incident",
+							"query_value": "sys_created_onRELATIVEGT@hour@ago@24^major_incident_state=accepted",
+							"display_true_value": "true",
+							"field_value": "sys_id%2Cassignment_group%2Cresolved_by%2Copened_by"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "us_incident_display_JSON",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": [],
