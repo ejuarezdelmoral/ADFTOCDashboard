@@ -24,6 +24,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "AzureSQLUSOutages",
+						"type": "DatasetReference"
+					},
 					"name": "USOutages"
 				}
 			],
@@ -96,8 +100,27 @@
 				"derivedColumn3 alterRow(upsertIf(true())) ~> alterRow1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          sys_id as string,",
+				"          begin as timestamp,",
+				"          end as timestamp,",
+				"          duration as timestamp,",
+				"          sys_created_on as timestamp,",
+				"          cmdb_ci_display as string,",
+				"          task_number_display as string,",
+				"          sys_updated_on as timestamp,",
+				"          updated_new as string,",
+				"          cmdb_ci_display_value_new as string,",
+				"          duration_in_hrs as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          sys_id_value = flattenactual@sys_id,",
 				"          begin_value = begin,",
@@ -110,8 +133,7 @@
 				"          updated_new,",
 				"          duration_in_hrs,",
 				"          cmdb_ci_display_value_new = cmdb_ci_final",
-				"     ),",
-				"     format: 'table') ~> USOutages"
+				"     )) ~> USOutages"
 			]
 		}
 	}
