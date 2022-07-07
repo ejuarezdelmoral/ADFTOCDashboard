@@ -16,7 +16,11 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[sp_drop_all_tables]"
+					"storedProcedureName": "[dbo].[sp_drop_tables]"
+				},
+				"linkedServiceName": {
+					"referenceName": "TOCDashboard001",
+					"type": "LinkedServiceReference"
 				}
 			},
 			{
