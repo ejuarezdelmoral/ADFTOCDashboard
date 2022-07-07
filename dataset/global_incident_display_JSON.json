@@ -1,5 +1,5 @@
 {
-	"name": "global_incident_display",
+	"name": "global_incident_display_JSON",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStaging",
