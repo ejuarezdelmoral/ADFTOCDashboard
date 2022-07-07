@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "global major incidents",
+				"name": "us major incidents",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "Global Major Incident Dataflow",
+						"referenceName": "US Major Incidents DataFlow",
 						"type": "DataFlowReference"
 					},
 					"compute": {
