@@ -194,7 +194,13 @@
 				"inputs": [
 					{
 						"referenceName": "GlobalSNOWRESTDataset",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "incident",
+							"query_value": "major_incident_state=accepted^sys_created_onRELATIVEGT@hour@ago@24",
+							"display_true_value": "true",
+							"field_value": "cmdb_ci%2Cnumber%2Cresolved_by%2Cassignment_group%2Cu_issue_notified_to_gnoc%2Cmajor_incident_state%2Cassigned_to%2Cbusiness_service%2Ccompany%2Ccaused_by%2Cclosed_by%2Cu_first_assigned_group%2Cu_is_the_incident_caused_by_a_change%2Cu_member_firm_affected%2Copened_by%2Cpromoted_by%2Cpromoted_on%2Csys_tags%2Cstate%2Cincident_state"
+						}
 					}
 				]
 			}
