@@ -41,11 +41,28 @@
 							"supportRFC5988": "true"
 						}
 					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "GlobalSNOWRESTDataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "task",
+							"query_value": "assignment_group=3d0d10194f1cf2401b2905818110c799^ORassignment_group=e7f650633730a2888747579543990ea3^ORassignment_group=7ff650633730a2888747579543990ea9^ORassignment_group=147cb9bedba0778076e67dad689619fb^ORassignment_group=f7f650633730a2888747579543990ea9^stateNOT IN3,7,4,6,8,9",
+							"display_true_value": "true",
+							"field_value": "number%2Cstate%2Csys_class_name%2Csys_created_on%2Cpriority%2Cassigned_to%2Csys_updated_on%2Ccontact_type%2Cassignment_group"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SL_Global_Tasks",
 						"type": "DatasetReference"
 					}
 				]
@@ -109,11 +126,28 @@
 							"supportRFC5988": "true"
 						}
 					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "GlobalSNOWRESTDataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"table_value": "change_request",
+							"query_value": "stateNOT IN3,4^start_dateRELATIVELT@hour@ahead@12^ORwork_startRELATIVEGT@hour@ago@12",
+							"display_true_value": "true",
+							"field_value": "number%2Cstate%2Csys_class_name%2Csys_created_on%2Cpriority%2Cassigned_to%2Csys_updated_on%2Ccontact_type%2Ccmdb_ci%2Cbusiness_service%2Cshort_description%2Ctype%2Cassignment_group%2Cu_incident_s_related_to_this_change%2Cu_ticket_sla_breach%2Copened_at%2Con_hold%2Cimpact%2Cstart_date%2Cwork_start"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SL_Global_Changes",
 						"type": "DatasetReference"
 					}
 				]
