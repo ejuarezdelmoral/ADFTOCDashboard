@@ -1,0 +1,141 @@
+{
+	"name": "us_outages_dataflow",
+	"properties": {
+		"folder": {
+			"name": "file uploads"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "us_cmdb_ci_outage_actual_JSON",
+						"type": "DatasetReference"
+					},
+					"name": "ActualUSOutages"
+				},
+				{
+					"dataset": {
+						"referenceName": "us_cmdb_ci_outage_display_JSON",
+						"type": "DatasetReference"
+					},
+					"name": "DisplayUSOutages"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSQLUSOutages",
+						"type": "DatasetReference"
+					},
+					"name": "USOutages"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flattenactual"
+				},
+				{
+					"name": "flattendisplay"
+				},
+				{
+					"name": "JOIN"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				},
+				{
+					"name": "derivedColumn3"
+				},
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          result as (duration as string, sys_id as string, sys_created_on as string, end as string, sys_updated_on as string, begin as string)[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> ActualUSOutages",
+				"source(output(",
+				"          result as (sys_id as string, cmdb_ci as (display_value as string, link as string), task_number as (display_value as string, link as string))[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> DisplayUSOutages",
+				"ActualUSOutages foldDown(unroll(result, result),",
+				"     mapColumn(",
+				"          duration = result.duration,",
+				"          sys_id = result.sys_id,",
+				"          sys_created_on = result.sys_created_on,",
+				"          end = result.end,",
+				"          sys_updated_on = result.sys_updated_on,",
+				"          begin = result.begin",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenactual",
+				"DisplayUSOutages foldDown(unroll(result, result),",
+				"     mapColumn(",
+				"          cmdb_ci = result.cmdb_ci.display_value,",
+				"          sys_id = result.sys_id,",
+				"          task_number = result.task_number.display_value",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattendisplay",
+				"derivedColumn2, derivedColumn1 join(flattenactual@sys_id == flattendisplay@sys_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JOIN",
+				"flattendisplay derive(cmdb_ci = replace(toString(cmdb_ci), \"'\",\"''\" )) ~> derivedColumn1",
+				"flattenactual derive(updated_new = toTimestamp(toString(sys_updated_on), 'yyyy-MM-dd HH:mm:ss')) ~> derivedColumn2",
+				"JOIN derive(cmdb_ci_final = replace(toString(cmdb_ci), '&','%26'),",
+				"          duration_in_hrs = toDecimal((toInteger(toTimestamp(end)-toTimestamp(begin))/1000)/3600, 10)) ~> derivedColumn3",
+				"derivedColumn3 alterRow(upsertIf(true())) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          sys_id as string,",
+				"          begin as timestamp,",
+				"          end as timestamp,",
+				"          duration as timestamp,",
+				"          sys_created_on as timestamp,",
+				"          cmdb_ci_display as string,",
+				"          task_number_display as string,",
+				"          sys_updated_on as timestamp,",
+				"          updated_new as string,",
+				"          cmdb_ci_display_value_new as string,",
+				"          duration_in_hrs as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['sys_id'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          sys_id = flattenactual@sys_id,",
+				"          begin,",
+				"          end,",
+				"          duration,",
+				"          sys_created_on,",
+				"          cmdb_ci_display = cmdb_ci,",
+				"          task_number_display = task_number,",
+				"          sys_updated_on,",
+				"          updated_new,",
+				"          duration_in_hrs,",
+				"          cmdb_ci_display_value_new = cmdb_ci_final",
+				"     )) ~> USOutages"
+			]
+		}
+	}
+}

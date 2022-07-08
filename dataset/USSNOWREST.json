@@ -1,0 +1,44 @@
+{
+	"name": "USSNOWREST",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "USSNOWREST",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"table": {
+					"value": "@{dataset().table_value}",
+					"type": "Expression"
+				},
+				"sysparm_query": {
+					"value": "@{dataset().query_value}",
+					"type": "Expression"
+				},
+				"sysparm_display_value": {
+					"value": "@{dataset().display_true_value}",
+					"type": "Expression"
+				},
+				"sysparm_fields": {
+					"value": "@{dataset().field_value}",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"table_value": {
+				"type": "string"
+			},
+			"query_value": {
+				"type": "string"
+			},
+			"display_true_value": {
+				"type": "string"
+			},
+			"field_value": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

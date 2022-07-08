@@ -1,0 +1,75 @@
+{
+	"name": "AzureSqlGlobalOutages",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TOCDataBase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "sys_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "cmdb_ci",
+				"type": "nvarchar"
+			},
+			{
+				"name": "task_number",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_created_on",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "begin",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "duration",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "end",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "short_description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_updated_on",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "sys_mod_count",
+				"type": "nvarchar"
+			},
+			{
+				"name": "updated_new",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "global_cmdb_ci_outage"
+		}
+	}
+}

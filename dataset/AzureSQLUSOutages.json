@@ -1,0 +1,71 @@
+{
+	"name": "AzureSQLUSOutages",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TOCDataBase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "sys_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "begin",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "end",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "duration",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "sys_created_on",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "cmdb_ci_display",
+				"type": "nvarchar"
+			},
+			{
+				"name": "task_number_display",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_updated_on",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "updated_new",
+				"type": "nvarchar"
+			},
+			{
+				"name": "cmdb_ci_display_value_new",
+				"type": "nvarchar"
+			},
+			{
+				"name": "duration_in_hrs",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "us_cmdb_ci_outage"
+		}
+	}
+}

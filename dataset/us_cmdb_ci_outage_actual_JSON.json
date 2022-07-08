@@ -1,0 +1,52 @@
+{
+	"name": "us_cmdb_ci_outage_actual_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStaging",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Staging Blob Tables"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "us_cmdb_ci_outage_actual.json",
+				"container": "azuredatafactorystaging"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"result": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"duration": {
+								"type": "string"
+							},
+							"sys_id": {
+								"type": "string"
+							},
+							"sys_created_on": {
+								"type": "string"
+							},
+							"end": {
+								"type": "string"
+							},
+							"sys_updated_on": {
+								"type": "string"
+							},
+							"begin": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

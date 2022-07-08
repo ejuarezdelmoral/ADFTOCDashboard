@@ -1,0 +1,109 @@
+{
+	"name": "us_incident_actual_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStaging",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Staging Blob Tables"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "us_Incident_actual.json",
+				"container": "azuredatafactorystaging"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"result": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"short_description": {
+								"type": "string"
+							},
+							"assignment_group": {
+								"type": "object",
+								"properties": {
+									"link": {
+										"type": "string"
+									},
+									"value": {
+										"type": "string"
+									}
+								}
+							},
+							"u_is_the_incident_caused_by_a_change": {
+								"type": "string"
+							},
+							"u_toc_awareness_time": {
+								"type": "string"
+							},
+							"sys_updated_on": {
+								"type": "string"
+							},
+							"calendar_duration": {
+								"type": "string"
+							},
+							"priority": {
+								"type": "string"
+							},
+							"sys_tags": {
+								"type": "string"
+							},
+							"sys_id": {
+								"type": "string"
+							},
+							"number": {
+								"type": "string"
+							},
+							"resolved_by": {
+								"type": "object",
+								"properties": {
+									"link": {
+										"type": "string"
+									},
+									"value": {
+										"type": "string"
+									}
+								}
+							},
+							"contact_type": {
+								"type": "string"
+							},
+							"opened_by": {
+								"type": "object",
+								"properties": {
+									"link": {
+										"type": "string"
+									},
+									"value": {
+										"type": "string"
+									}
+								}
+							},
+							"sys_created_on": {
+								"type": "string"
+							},
+							"resolved_at": {
+								"type": "string"
+							},
+							"major_incident_state": {
+								"type": "string"
+							},
+							"sys_created_by": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
