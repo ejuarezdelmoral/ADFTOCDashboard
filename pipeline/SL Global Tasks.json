@@ -41,20 +41,14 @@
 							"supportRFC5988": "true"
 						}
 					},
-					"sink": {
-						"type": "AzureSqlSink",
-						"writeBehavior": "upsert",
-						"upsertSettings": {
-							"useTempDB": true,
-							"keys": [
-								"Number"
-							]
-						},
-						"sqlWriterUseTableLock": false,
-						"disableMetricsCollection": false
-					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "GlobalSNOWRESTDataset",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "Delete Contents in SL Global Task Table",
@@ -69,7 +63,11 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[sp_delete_SL_Global_tasks]"
+					"storedProcedureName": "[dbo].[sp_delete_SL_Global]"
+				},
+				"linkedServiceName": {
+					"referenceName": "TOCDataBase",
+					"type": "LinkedServiceReference"
 				}
 			},
 			{
@@ -111,20 +109,14 @@
 							"supportRFC5988": "true"
 						}
 					},
-					"sink": {
-						"type": "AzureSqlSink",
-						"writeBehavior": "upsert",
-						"upsertSettings": {
-							"useTempDB": true,
-							"keys": [
-								"Number"
-							]
-						},
-						"sqlWriterUseTableLock": false,
-						"disableMetricsCollection": false
-					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "GlobalSNOWRESTDataset",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "SL Global Major Incidents",
@@ -162,12 +154,15 @@
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "GET"
 					},
-					"sink": {
-						"type": "AzureSqlSink"
-					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "GlobalSNOWRESTDataset",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {
