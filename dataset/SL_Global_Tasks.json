@@ -1,0 +1,65 @@
+{
+	"name": "SL_Global_Tasks",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TOCDataBase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Number",
+				"type": "nvarchar"
+			},
+			{
+				"name": "State",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Task_Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Created",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Priority",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Assigned_to",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sys_updated_on",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Contact_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "assigned_group",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Instance",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Number_Link",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SL_Global_Tasks"
+		}
+	}
+}

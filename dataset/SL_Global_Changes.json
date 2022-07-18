@@ -1,0 +1,119 @@
+{
+	"name": "SL_Global_Changes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TOCDataBase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "number",
+				"type": "nvarchar"
+			},
+			{
+				"name": "state",
+				"type": "nvarchar"
+			},
+			{
+				"name": "task_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "created",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "priority",
+				"type": "nvarchar"
+			},
+			{
+				"name": "assigned_to",
+				"type": "nvarchar"
+			},
+			{
+				"name": "updated",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "contact_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "configuration_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "business_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "business_service",
+				"type": "nvarchar"
+			},
+			{
+				"name": "short_description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "assignment_group",
+				"type": "nvarchar"
+			},
+			{
+				"name": "incidents_related_to_this_change",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ticket_sla_breach",
+				"type": "nvarchar"
+			},
+			{
+				"name": "opened",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "on_hold",
+				"type": "nvarchar"
+			},
+			{
+				"name": "impact",
+				"type": "nvarchar"
+			},
+			{
+				"name": "planned_start_date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "actual_start",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "work_start_string",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Instance",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "SL_Global_Changes"
+		}
+	}
+}
