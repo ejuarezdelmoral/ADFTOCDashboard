@@ -151,58 +151,6 @@
 						"type": "DatasetReference"
 					}
 				]
-			},
-			{
-				"name": "SL Global Major Incidents",
-				"description": "Global Rest call to copy the display entries from Incident table.",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Delete Contents in SL Global Task Table",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 3,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "RestSource",
-						"additionalColumns": [
-							{
-								"name": "Instance",
-								"value": {
-									"value": "@pipeline().parameters.Instance_name",
-									"type": "Expression"
-								}
-							}
-						],
-						"httpRequestTimeout": "00:01:40",
-						"requestInterval": "00.00:00:00.010",
-						"requestMethod": "GET"
-					},
-					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
-				},
-				"inputs": [
-					{
-						"referenceName": "GlobalSNOWRESTDataset",
-						"type": "DatasetReference",
-						"parameters": {
-							"table_value": "incident",
-							"query_value": "major_incident_state=accepted^sys_created_onRELATIVEGT@hour@ago@24",
-							"display_true_value": "true",
-							"field_value": "cmdb_ci%2Cnumber%2Cresolved_by%2Cassignment_group%2Cu_issue_notified_to_gnoc%2Cmajor_incident_state%2Cassigned_to%2Cbusiness_service%2Ccompany%2Ccaused_by%2Cclosed_by%2Cu_first_assigned_group%2Cu_is_the_incident_caused_by_a_change%2Cu_member_firm_affected%2Copened_by%2Cpromoted_by%2Cpromoted_on%2Csys_tags%2Cstate%2Cincident_state"
-						}
-					}
-				]
 			}
 		],
 		"parameters": {
