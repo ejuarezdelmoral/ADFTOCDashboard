@@ -28,7 +28,11 @@
 						"referenceName": "AzureSQLUSOutages",
 						"type": "DatasetReference"
 					},
-					"name": "USOutages"
+					"name": "USOutages",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureBlobStaging",
+						"type": "LinkedServiceReference"
+					}
 				}
 			],
 			"transformations": [
@@ -121,7 +125,9 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
+				"     errorHandlingOption: 'allErrors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false,",
 				"     mapColumn(",
 				"          sys_id = flattenactual@sys_id,",
 				"          begin,",
